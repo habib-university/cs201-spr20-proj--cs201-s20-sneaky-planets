@@ -1,58 +1,82 @@
 #range tree implementation - not completed
 
-class Node:
+class NodeForOneDee:
     def __init__(self, data=None):
         self.data = data
         self.left = None
         self.right = None
 
-#simple binary tree
+
+
+#simple binary tree ( only add function )
 #TODO: necessary changes to convert it into a one dimensional range tree 
 
-class SimpleTree: 
+class OneDeeRangeTree: 
+    
     def __init__(self):
-      self.root = Node()
+      self.root = NodeForOneDee()
+    
     def add(self, node, root):
+      
       if root.data == None:
         root.data = node.data
-        # root.left = Node(node.data)
         return
+      
       temp = root
-      if node.data <= temp.data:
+
+      if node.data[0] <= temp.data[0]:
         if temp.left is None:
-          temp.left = Node()
+          temp.left = NodeForOneDee()
+          temp.left.left = NodeForOneDee(node.data)
+          temp.left.right = NodeForOneDee(temp.data)
         self.add(node, temp.left)
-      if node.data > temp.data:
+      if node.data[0] > temp.data[0]:
         if temp.right is None:
-          temp.right = Node()
+          temp.right = NodeForOneDee()
+          temp.right.left = NodeForOneDee(node.data)
         self.add(node, temp.right)
 
+    def find(self, start, end, results, root):
+      if root is None:
+        return
+      if root.left is None and root.right is None:
+        if start <= root.data[0] <= end:
+          results.append(root.data)
+          return
+      if root.left is not None:
+        self.find(start, end, results, root.left)
+      if root.right is not None:
+        self.find(start, end, results, root.right)
 
-# to print the tree ( for debugging )
-def printLevelOrder(root): 
-  if root is None: 
+class TwoDeeRangeTree:
+  def __init__(self):
+    self.root = 
+
+
+def printLeaf(root):
+  if root is None:
     return
-  q = [] 
-  q.append(root) 
-  while q: 
-    count = len(q) 
-    while count > 0: 
-      temp = q.pop(0) 
-      print(temp.data, end = ' ') 
-      if temp.left: 
-        q.append(temp.left) 
-      if temp.right: 
-        q.append(temp.right) 
+  if root.left is None and root.right is None:
+    print(root.data)
+    return
+  if root.left is not None:
+    printLeaf(root.left)
+  if root.right is not None:
+    printLeaf(root.right)
 
-      count -= 1
-    print(' ') 
+
 
 check = SimpleTree()
-check.add(Node(5), check.root)
-check.add(Node(3), check.root)
-check.add(Node(10), check.root)
+check.add(NodeForOneDee(5), check.root)
+check.add(NodeForOneDee(3), check.root)
+check.add(NodeForOneDee(10), check.root)
 
-printLevelOrder(check.root)
+ans = []
+
+check.find(5, 10, ans, check.root)
+
+# printLeaf(check.root)
+print(ans)
 
 
 # Final Implementation of a 4D Range Tree
