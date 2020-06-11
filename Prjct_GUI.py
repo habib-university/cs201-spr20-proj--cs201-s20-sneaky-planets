@@ -11,6 +11,10 @@ def add_employee():
     if rank == "" or age == "" or salary == "" or rank == "":
         error["text"] = "Please enter all the fields!"
     else:
+        range_tree.add(HigherDeeNode([str(range_tree.n - 1), age, rank, salary, name]), range_tree.root)
+        lines = open("data.txt", "a")
+        lines.write(str(range_tree.n - 1) + " " + age + " " + rank + " " + salary + " " + name)
+        lines.close()
         error["text"] = "Employee added!"
 
 def show_employee():

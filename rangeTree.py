@@ -121,6 +121,7 @@ class OneDeeRangeTree:
 class TwoDeeRangeTree:
 	def __init__(self):
 		self.root = HigherDeeNode()
+		self.n = 0
 
 		lines = open("data.txt", "r")
 
@@ -135,10 +136,12 @@ class TwoDeeRangeTree:
 			self.root.left = HigherDeeNode(node.data)
 			self.root.left.other = OneDeeRangeTree(node)
 			self.root.other = OneDeeRangeTree(node)
+			self.n += 1
 			return
 		
 		if roott.data == None:
 			roott.data = node.data
+			self.n += 1
 			return
 		
 		temp = roott
