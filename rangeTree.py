@@ -106,7 +106,7 @@ class OneDeeRangeTree:
 			self.returnLeafsWithRange(start_one, end_one, start, end, results, root.right)
 
 	def rangeSearch(self, start_one, end_one, start, end, results, root):
-		if roott is None:
+		if root is None:
 			print("No Results")
 			return
 		if start <= int(root.data[0]) <= end:
@@ -121,7 +121,14 @@ class OneDeeRangeTree:
 class TwoDeeRangeTree:
 	def __init__(self):
 		self.root = HigherDeeNode()
-	
+
+		lines = open("data.txt", "r")
+
+		for line in lines:
+			employeeInfo = line.split()
+			node = HigherDeeNode(employeeInfo)
+			self.add(node, self.root)
+
 	def add(self, node, roott):
 		if self.root.data == None:
 			self.root.data = node.data
@@ -169,13 +176,5 @@ class TwoDeeRangeTree:
 		if end_one < int(roott.data[1]):
 			self.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.left)
 
-
-lines = open("data.txt", "r")
-
-a = TwoDeeRangeTree()
-
-
-for line in lines:
-	employeeInfo = line.split()
-	node = HigherDeeNode(employeeInfo)
-	a.add(node, a.root)
+	def get_all(self, results):
+		self.rangeSearch(float('-inf'), float('inf'), float('-inf'), float('inf'), results, self.root)
