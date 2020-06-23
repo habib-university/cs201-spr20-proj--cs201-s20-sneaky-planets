@@ -5,6 +5,14 @@ class TwoDeeRangeTree:
 	def __init__(self, node = None):
 		self.root = HigherDeeNode()
 		self.n = 0
+
+		lines = open("data.txt", "r")
+
+		for line in lines:
+			employeeInfo = line.split()
+			node = HigherDeeNode(employeeInfo)
+			self.add(node, self.root)
+
 		if node != None:
 			self.add(node, self.root)
 
