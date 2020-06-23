@@ -518,25 +518,3 @@ class Table(Frame):
 
     def on_change_data(self, callback):
         self._on_change_data = callback
-
-# if __name__ == "__main__":
-#     try:
-#         from Tkinter import Tk
-#     except ImportError:
-#         from tkinter import Tk
-
-#     root = Tk()
-
-#     table = Table(root, ["column A", "column B", "column C"], column_minwidths=[None, None, None])
-#     table.pack(padx=10,pady=10)
-
-#     table.set_data([[1,2,3],[4,5,6], [7,8,9], [10,11,12], [13,14,15],[15,16,18], [19,20,21]])
-#     table.cell(0,0, " a fdas fasd fasdf asdf asdfasdf asdf asdfa sdfas asd sadf ")
-    
-#     table.insert_row([22,23,24])
-#     table.insert_row([25,26,27])
-    
-#     root.update()
-#     root.geometry("%sx%s"%(root.winfo_reqwidth(),250))
-
-#     root.mainloop()
