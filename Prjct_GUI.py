@@ -41,7 +41,7 @@ class GUI:
         self.add_btn.grid(row=7, column=2)
 
         ############
-        self.error = Label(self.display, text="            ")
+        self.error = Label(self.display, text="")
         self.error.grid(row=8, column=0)
         #########
 
@@ -120,13 +120,12 @@ class GUI:
             age_end = int(age_end)
 
         results = []
-        self.range_tree.rangeSearch(float('-inf'), float('-inf'), age_start, age_end, id_start, id_end, results, self.range_tree.root)
-        if len(results) > 0:
-            newWindow = Toplevel(self.display)
-            table = Table(newWindow, ['ID', 'Age', 'Rank', 'Salary', 'Name'], column_minwidths=[20, 100, 100, 100, 100])
-            table.set_data(results)
-        else:
-            self.error2["text"] = "No Such Employees!"
+        self.range_tree.rangeSearch(age_start, age_end, id_start, id_end, results, self.range_tree.root)
+    
+        newWindow = Toplevel(self.display)
+        table = Table(newWindow, ['ID', 'Age', 'Rank', 'Salary', 'Name'], column_minwidths=[20, 100, 100, 100, 100])
+        table.pack(padx=0,pady=0)
+        table.set_data(results)
             
 
     def run(self):

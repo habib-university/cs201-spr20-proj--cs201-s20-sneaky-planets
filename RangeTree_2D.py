@@ -50,7 +50,7 @@ class TwoDeeRangeTree:
 			temp.other.add(node, temp.other.root)
 			self.add(node, temp.right)
 
-	def rangeSearch(self, start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott):
+	def rangeSearch(self, start_one, end_one, start_zero, end_zero, results, roott):
 		if start_one > end_one or start_zero > end_zero:
 			print("Invalid Queries!")
 			return
@@ -58,10 +58,10 @@ class TwoDeeRangeTree:
 			print("No Results")
 			return
 		if start_one <= int(roott.data[1]) <= end_one:
-			roott.other.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.other.root)
+			roott.other.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.other.root)
 			return
 		if start_one > int(roott.data[1]):
-			self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.right)
+			self.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.right)
 		if end_one < int(roott.data[1]):
-			self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.left)
+			self.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.left)
 
