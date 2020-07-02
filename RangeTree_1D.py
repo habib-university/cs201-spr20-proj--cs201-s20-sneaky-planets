@@ -29,26 +29,26 @@ class OneDeeRangeTree:
                 temp.right.left = OneDeeNode(node.data)
             self.add(node, temp.right)
 
-    def returnLeafsWithRange(self, start_one, end_one, start, end, results, root):
+    def returnLeafsWithRange(self, start_two, end_two, start_one, end_one, start, end, results, root):
         if root == None:
             return
         if root.left is None and root.right is None:
-            if start <= int(root.data[0]) <= end and start_one <= int(root.data[1]) <= end_one:
+            if start <= int(root.data[0]) <= end and start_one <= int(float(root.data[1])) <= end_one and start_two <= int(float(root.data[2])) <= end_two:
                 results.append(root.data)
                 return
         if root.left is not None and int(root.data[0]) >= start:
-            self.returnLeafsWithRange(start_one, end_one, start, end, results, root.left)
+            self.returnLeafsWithRange(start_two, end_two, start_one, end_one, start, end, results, root.left)
         if root.right is not None and int(root.data[0]) <= end:
-            self.returnLeafsWithRange(start_one, end_one, start, end, results, root.right)
+            self.returnLeafsWithRange(start_two, end_two, start_one, end_one, start, end, results, root.right)
 
-    def rangeSearch(self, start_one, end_one, start, end, results, root):
+    def rangeSearch(self, start_two, end_two, start_one, end_one, start, end, results, root):
         if root is None:
             print("No Results")
             return
         if start <= int(root.data[0]) <= end:
-            self.returnLeafsWithRange(start_one, end_one, start, end, results, root)
+            self.returnLeafsWithRange( start_two, end_two,start_one, end_one, start, end, results, root)
             return
         if start > int(root.data[0]):
-                self.rangeSearch(start_one, end_one, start, end, results, root.right)
+                self.rangeSearch(start_two, end_two, start_one, end_one, start, end, results, root.right)
         if end < int(root.data[0]):
-                self.rangeSearch(start_one, end_one, start, end, results, root.left)
+                self.rangeSearch(start_two, end_two, start_one, end_one, start, end, results, root.left)

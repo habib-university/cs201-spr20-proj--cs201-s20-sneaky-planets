@@ -5,14 +5,6 @@ class TwoDeeRangeTree:
 	def __init__(self, node = None):
 		self.root = HigherDeeNode()
 		self.n = 0
-
-		lines = open("data.txt", "r")
-
-		for line in lines:
-			employeeInfo = line.split()
-			node = HigherDeeNode(employeeInfo)
-			self.add(node, self.root)
-
 		if node != None:
 			self.add(node, self.root)
 
@@ -50,18 +42,18 @@ class TwoDeeRangeTree:
 			temp.other.add(node, temp.other.root)
 			self.add(node, temp.right)
 
-	def rangeSearch(self, start_one, end_one, start_zero, end_zero, results, roott):
+	def rangeSearch(self, start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott):
 		if start_one > end_one or start_zero > end_zero:
 			print("Invalid Queries!")
 			return
 		if roott is None:
 			print("No Results")
 			return
-		if start_one <= int(roott.data[1]) <= end_one:
-			roott.other.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.other.root)
+		if start_one <= int(float(roott.data[1])) <= end_one:
+			roott.other.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.other.root)
 			return
-		if start_one > int(roott.data[1]):
-			self.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.right)
-		if end_one < int(roott.data[1]):
-			self.rangeSearch(start_one, end_one, start_zero, end_zero, results, roott.left)
+		if start_one > int(float(roott.data[1])):
+			self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.right)
+		if end_one < int(float(roott.data[1])):
+			self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.left)
 

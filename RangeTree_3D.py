@@ -1,67 +1,100 @@
 from RangeTree_2D import TwoDeeRangeTree
 from Node import HigherDeeNode
+import csv
+
+#with open('employee-salary-data-1.csv') as csv_file:
+#        csv_reader = csv.reader(csv_file, delimiter=',')
+#        line_count = 0
+#        for row in csv_reader:
+#                if line_count == 0:
+#                        print(f'Column names are {", ".join(row)}')
+#                        line_count += 1
+#                else:
+#                        print(f'\t{row[0]} {row[1]} {row[2]}.')
+#                        line_count += 1
+#        print(f'Processed {line_count} lines.')
+
 
 class ThreeDeeRangeTree:
-	def __init__(self):
-		self.root = HigherDeeNode()
-		self.n = 0
+    def __init__(self):
+        self.root = HigherDeeNode()
+        self.n = 0
 
-		lines = open("data.txt", "r")
+        with open('employee-salary-data-1.csv') as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                line_count = 0
+                for row in csv_reader:
+                    if line_count > 1000:
+                        break
+                    
+                    if line_count == 0:
+                            #print(f'Column names are {", ".join(row)}')
+                            pass
+                    else:
+                        employeeInfo = [row[1], row[6], row[8], row[2], row[3], row[4]]
+                        node = HigherDeeNode(employeeInfo)
+                        self.add(node, self.root)
+                        #print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
+                        #line_count += 1
+                    line_count += 1
+                print(f'Processed {line_count} lines.')
 
-		for line in lines:
-			employeeInfo = line.split()
-			node = HigherDeeNode(employeeInfo)
-			self.add(node, self.root)
-	def add(self, node, roott):
-		if self.root.data == None:
-			self.root.data = node.data
-			self.root.left = HigherDeeNode(node.data)
-			self.root.left.other = TwoDeeRangeTree(node)
-			self.root.other = TwoDeeRangeTree(node)
-			self.n += 1
-			return
-		
-		if roott.data == None:
-			roott.data = node.data
-			self.n += 1
-			return
-		
-		temp = roott
+#       lines = open("data.txt", "r")
 
-		if node.data[3] <= temp.data[3]:
-			if temp.left is None:
-				temp.left = HigherDeeNode()
-				temp.right = HigherDeeNode(temp.data)
-				if temp.other == None:
-					temp.other = TwoDeeRangeTree()
-				temp.other.add(HigherDeeNode(temp.data), temp.other.root)
-				temp.data = node.data
-			temp.other.add(node, temp.other.root)
-			self.add(node, temp.left)
-		if node.data[3] > temp.data[3]:
-			if temp.right is None:
-				temp.right = HigherDeeNode()
-				temp.right.other = TwoDeeRangeTree(node)
-				temp.right.left = HigherDeeNode(node.data)
-			temp.other.add(node, temp.other.root)
-			self.add(node, temp.right)
-	
-	def rangeSearch(self, start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott):
-		if start_one > end_one or start_zero > end_zero:
-			print("Invalid Queries!")
-			return
-		if roott is None:
-			print("No Results")
-			return
-		if start_two <= int(roott.data[3]) <= end_two:
-			roott.other.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.other.root)
-			return
-		if start_one > int(roott.data[3]):
-			self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.right)
-		if end_one < int(roott.data[1]):
-			self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.left)
-	def get_all(self, results):
-		self.rangeSearch(float('-inf'), float('inf'), float('-inf'), float('inf'), float('-inf'), float('inf'), results, self.root)
+#       for line in lines:
+#           employeeInfo = line.split()
+#           node = HigherDeeNode(employeeInfo)
+#           self.add(node, self.root)
+    def add(self, node, roott):
+        if self.root.data == None:
+            self.root.data = node.data
+            self.root.left = HigherDeeNode(node.data)
+            self.root.left.other = TwoDeeRangeTree(node)
+            self.root.other = TwoDeeRangeTree(node)
+            self.n += 1
+            return
+        
+        if roott.data == None:
+            roott.data = node.data
+            self.n += 1
+            return
+        
+        temp = roott
+
+        if node.data[2] <= temp.data[2]:
+            if temp.left is None:
+                temp.left = HigherDeeNode()
+                temp.right = HigherDeeNode(temp.data)
+                if temp.other == None:
+                    temp.other = TwoDeeRangeTree()
+                temp.other.add(HigherDeeNode(temp.data), temp.other.root)
+                temp.data = node.data
+            temp.other.add(node, temp.other.root)
+            self.add(node, temp.left)
+        if node.data[2] > temp.data[2]:
+            if temp.right is None:
+                temp.right = HigherDeeNode()
+                temp.right.other = TwoDeeRangeTree(node)
+                temp.right.left = HigherDeeNode(node.data)
+            temp.other.add(node, temp.other.root)
+            self.add(node, temp.right)
+    
+    def rangeSearch(self, start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott):
+        if start_one > end_one or start_zero > end_zero:
+            print("Invalid Queries!")
+            return
+        if roott is None:
+            print("No Results")
+            return
+        if start_two <= int(float(roott.data[2])) <= end_two:
+            roott.other.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.other.root)
+            return
+        if start_two > int(float(roott.data[2])):
+            self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.right)
+        if end_two < int(float(roott.data[2])):
+            self.rangeSearch(start_two, end_two, start_one, end_one, start_zero, end_zero, results, roott.left)
+    def get_all(self, results):
+        self.rangeSearch(float('-inf'), float('inf'), float('-inf'), float('inf'), float('-inf'), float('inf'), results, self.root)
 
 
 ##Print Leafs/Trees - For debugging purpose
